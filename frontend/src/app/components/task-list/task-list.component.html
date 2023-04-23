@@ -1,0 +1,11 @@
+<ng-container *subscribe="characters$ as characters">
+    <p *ngIf="characters.status === 'loading'">Loading...</p>
+    <p *ngIf="characters.status === 'error'">Error :(</p>
+    <ng-container *ngIf="characters.status === 'success'">
+      <article class="py-1" *ngFor="let task of characters.data">
+        <a class="link-secondary" [routerLink]="[task.id]">
+          {{ task.id }} - {{ task.title }}: {{ task.description }}
+        </a>
+      </article>
+    </ng-container>
+  </ng-container>

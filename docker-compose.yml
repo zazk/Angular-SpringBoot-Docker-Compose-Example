@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  backend:
+    image: openjdk:11-jdk-slim
+    container_name: spring-boot-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    command: ./mvnw spring-boot:run
+    depends_on:
+      - db
+  frontend:
+    image: node:14-alpine
+    container_name: angular-app
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    command: npm start
+  db:
+    image: postgres:13
+    container_name: postgresql-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mydb
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
